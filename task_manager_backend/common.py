@@ -1,4 +1,6 @@
 from django.contrib.auth.hashers import make_password, check_password
+from rest_framework.response import Response
+from rest_framework import status
 
 def hash_password(password: str) -> str:
     """
@@ -31,15 +33,6 @@ import datetime
 SECRET_KEY = 'your_secret_key_here'
 
 def generate_token(user_id):
-    """
-    Generates a JWT token valid for 15 minutes.
-
-    Args:
-    - user_id (str): The user identifier, typically the user's ID or email.
-
-    Returns:
-    - str: The JWT token.
-    """
     expiration_time = datetime.datetime.utcnow() + datetime.timedelta(minutes=15)
     
     payload = {
@@ -52,24 +45,15 @@ def generate_token(user_id):
     
     return token
 
-def decode_token(token):
-    """
-    Decodes the JWT token and returns the payload if valid.
-
-    Args:
-    - token (str): The JWT token.
-
-    Returns:
-    - dict: The payload data if the token is valid.
-    - None: If the token is expired or invalid.
-    """
-    try:
-        # Decode the token and verify expiration
-        payload = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
-        return payload
-    except jwt.ExpiredSignatureError:
-        print("Token has expired")
-        return None
-    except jwt.InvalidTokenError:
-        print("Invalid token")
-        return None
+def is_authenicated(token):
+ 
+    payload = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
+    # if payload == None:
+    #         return Response({
+    #         'status': 'error',
+    #         'message': 'You are not authorized to view this user data.'
+    #     }, status=status.HTTP_403_FORBIDDEN)
+    # else:
+    #     return payload
+    return payload
+    

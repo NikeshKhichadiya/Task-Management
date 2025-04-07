@@ -40,7 +40,8 @@ INSTALLED_APPS = [
 
     # Third-party apps
     'rest_framework',  # Django REST framework
-    'rest_framework_simplejwt',  # JWT authentication
+    'rest_framework.authtoken',
+    'rest_framework_simplejwt',  # JWT authenticationF
     'corsheaders',
     'tasks'  # Your tasks app
 ]
@@ -55,16 +56,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'task_manager_backend.middleware.JWTAuthenticationMiddleware',  # custom middleware here
 ]
-
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',  # This class verifies the JWT token
-    ),
-    'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated',  # Protect views by default
-    ),
-}
 
 ROOT_URLCONF = 'task_manager_backend.urls'
 
