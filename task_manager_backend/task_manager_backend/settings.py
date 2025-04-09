@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'rest_framework_simplejwt',  # JWT authenticationF
     'corsheaders',
-    'tasks'  # Your tasks app
+
+    'users'  # Your tasks app
 ]
 
 MIDDLEWARE = [
