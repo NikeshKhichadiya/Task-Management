@@ -38,16 +38,13 @@ class LoginAPIView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class UserProfileAPIView(APIView):
-    def get(self, request, user_id):
+    def get(self, request):
         # Check if JWT middleware attached the token payload.
         if not hasattr(request, 'jwt_payload') or request.jwt_payload is None:
             return Response({"detail": "Unauthorized. No valid token provided."}, status=status.HTTP_401_UNAUTHORIZED)
         
         # Retrieve user_id from the token payload.
-        token_user_id = request.jwt_payload.get("user_id")
-        # Check if the user_id in the token matches the user_id in the URL.
-        if token_user_id != user_id:
-            return Response({"detail": "You are not authorized to view this user's data."}, status=status.HTTP_403_FORBIDDEN)
+        user_id = request.jwt_payload.get("user_id")
         
         # If token is valid and user IDs match, fetch the user data.
         try:
